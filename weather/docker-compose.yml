@@ -1,0 +1,11 @@
+web:
+  build: .
+  command: python -u weather.py
+  ports: 
+    - "5000:5000"
+  volumes:
+    - .:/weather
+  links:
+    - db
+db:
+  image: mongo:3.4

@@ -1,0 +1,12 @@
+#login-form {
+	background-color: #748CAB;
+	border-radius: 10px;
+	border: black 1px solid;
+	width: 50%;
+	margin:0 auto;
+	padding: 10px;
+}
+
+#login-form p {
+	text-align: center;
+}

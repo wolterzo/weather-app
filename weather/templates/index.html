@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>Weather</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Weather for {{ user.username }}</h1>
+        <form action="/logout" method=POST> 
+          <input type="submit" value="Log out">
+        </form>
+      <div id="boxes" class="container">
+        {% if locationData %}
+        {%- for location in locationData %}
+          <div class="box">
+            <h3>{{ location.name }}</h3>
+            <p class="temp">{{ location.weather.currently.temperature|round|int }}&#8457</p>
+            <p class="summary">{{ location.weather.currently.summary}} </p>
+            <div class="container futures">
+            {%- for day in location.weather.daily.data %}
+              {% if loop.index <= 4 %}
+                <div class="container future">
+                  <p class="future-day">{{ day.time|dayfromtime }}</p>
+                  <p class="max-temp">{{ day.temperatureMax|round|int }}&#8457</p>
+                  <p class="min-temp">{{ day.temperatureMin|round|int }}&#8457</p>
+                  <p class="summary">{{ day.summary }}</p>
+                </div>
+              {% endif %}
+            {%- endfor %}
+            </div>
+            <form action="{{ url_for('remove', name=location.name) }}" method=POST class=""> 
+              <input type="submit" id='remove' value="Remove">
+            </form>
+          </div>
+        {%- endfor %} 
+        {% endif %}
+        <form action="/add" method=POST id="add-box" class="box container"> 
+          <h2>Enter a location:</h2> <br>
+          <input type="search" name="new-location">
+          <input type="submit" value="Add" id="add-button">
+        </form>
+      </div>
+      <a id="attribution" href="https://darksky.net/poweredby/">Powered by Dark Sky</a>
+    </div>
+    <!-- scripts -->
+  </body>
+</html>
